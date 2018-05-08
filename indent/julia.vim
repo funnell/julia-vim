@@ -308,8 +308,7 @@ function GetJuliaIndent()
     " First scenario: the previous line has a hanging open bracket:
     " set the indentation to match the opening bracket (plus an extra space)
     if last_open_bracket != -1
-      let st = last_open_bracket
-      let ind = virtcol([lnum, st + 1])
+      let ind = indent(lnum) + &sw
 
     " Second scenario: some multiline bracketed expression was closed in the
     " previous line. But since we know we are still in a bracketed expression,
@@ -343,7 +342,7 @@ function GetJuliaIndent()
     " In case the current line starts with a closing bracket, we align it with
     " the opening one.
     if JuliaMatch(v:lnum, getline(v:lnum), '[])}]', indent(v:lnum)) == indent(v:lnum) && ind > 0
-      return ind - 1
+      return ind - &sw
     endif
 
     break
